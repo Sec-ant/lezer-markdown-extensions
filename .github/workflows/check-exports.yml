@@ -1,0 +1,36 @@
+name: Check generated exports
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  check-exports:
+    name: Ensure generated exports are committed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run update-exports script
+        run: pnpm tsx ./scripts/update-exports.ts
+
+      - name: Show git status and diff (for debugging)
+        run: |
+          git status --porcelain || true
+          git --no-pager diff --name-only || true
+
+      - name: Fail if update script generated unstaged changes
+        run: |
+          # If any tracked files were modified by the update script, fail the job.
+          if ! git diff --exit-code --quiet; then
+            echo "ERROR: update-exports script modified tracked files. Please run 'pnpm -s build' (or 'tsx ./scripts/update-exports.ts') and commit the changes.";
+            echo "Files modified:";
+            git --no-pager diff --name-only;
+            exit 1;
+          fi
