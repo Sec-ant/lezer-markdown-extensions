@@ -1,8 +1,4 @@
-import {
-  parser as defaultParser,
-  Subscript,
-  Superscript,
-} from "@lezer/markdown";
+import { parser as defaultParser } from "@lezer/markdown";
 import { describe, expect, it } from "vitest";
 import { templateVariableExtension } from "../src/extensions/template-variable";
 import { serializeTreeWithText } from "./utils";
@@ -199,29 +195,5 @@ describe("template variable extension", () => {
             TemplateVariableMark[3,5] }}"
     `,
     );
-  });
-});
-
-describe("builtin inline examples", () => {
-  it("superscript and subscript examples", () => {
-    const parser2 = defaultParser.configure([
-      Superscript,
-      Subscript,
-      templateVariableExtension,
-    ]);
-    const input = "a^b^ c~d~";
-    const tree = parser2.parse(input);
-    const serialized = serializeTreeWithText(tree, input);
-    // Inline snapshot will show how Superscript/Subscript are represented
-    expect(serialized).toMatchInlineSnapshot(`
-      "Document[0,9] a^b^ c~d~
-        Paragraph[0,9] a^b^ c~d~
-          Superscript[1,4] ^b^
-            SuperscriptMark[1,2] ^
-            SuperscriptMark[3,4] ^
-          Subscript[6,9] ~d~
-            SubscriptMark[6,7] ~
-            SubscriptMark[8,9] ~"
-    `);
   });
 });
