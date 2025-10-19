@@ -1,11 +1,11 @@
 import { parser as defaultParser } from "@lezer/markdown";
 import { describe, expect, it } from "vitest";
-import { templateVariableExtension } from "../src/extensions/template-variable";
+import { variableExtension } from "../src/extensions/variable";
 import { serializeTreeWithText } from "./utils";
 
-const parser = defaultParser.configure(templateVariableExtension);
+const parser = defaultParser.configure(variableExtension);
 
-describe("template variable extension", () => {
+describe("variable extension", () => {
   it("simple variable", () => {
     const input = "{{planet}}";
     const tree = parser.parse(input);
@@ -14,9 +14,9 @@ describe("template variable extension", () => {
       `
       "Document[0,10] {{planet}}
         Paragraph[0,10] {{planet}}
-          TemplateVariable[0,10] {{planet}}
-            TemplateVariableMark[0,2] {{
-            TemplateVariableMark[8,10] }}"
+          Variable[0,10] {{planet}}
+            VariableMark[0,2] {{
+            VariableMark[8,10] }}"
     `,
     );
   });
@@ -29,9 +29,9 @@ describe("template variable extension", () => {
       `
       "Document[0,4] {{}}
         Paragraph[0,4] {{}}
-          TemplateVariable[0,4] {{}}
-            TemplateVariableMark[0,2] {{
-            TemplateVariableMark[2,4] }}"
+          Variable[0,4] {{}}
+            VariableMark[0,2] {{
+            VariableMark[2,4] }}"
     `,
     );
   });
@@ -44,9 +44,9 @@ describe("template variable extension", () => {
       `
       "Document[0,11] {{a{{b}}c}}
         Paragraph[0,11] {{a{{b}}c}}
-          TemplateVariable[3,8] {{b}}
-            TemplateVariableMark[3,5] {{
-            TemplateVariableMark[6,8] }}"
+          Variable[3,8] {{b}}
+            VariableMark[3,5] {{
+            VariableMark[6,8] }}"
     `,
     );
   });
@@ -59,9 +59,9 @@ describe("template variable extension", () => {
       `
       "Document[0,11] {{{hello}}}
         Paragraph[0,11] {{{hello}}}
-          TemplateVariable[0,10] {{{hello}}
-            TemplateVariableMark[0,2] {{
-            TemplateVariableMark[8,10] }}"
+          Variable[0,10] {{{hello}}
+            VariableMark[0,2] {{
+            VariableMark[8,10] }}"
     `,
     );
   });
@@ -74,9 +74,9 @@ describe("template variable extension", () => {
       `
       "Document[0,13] {{{{hello}}}}
         Paragraph[0,13] {{{{hello}}}}
-          TemplateVariable[1,11] {{{hello}}
-            TemplateVariableMark[1,3] {{
-            TemplateVariableMark[9,11] }}"
+          Variable[1,11] {{{hello}}
+            VariableMark[1,3] {{
+            VariableMark[9,11] }}"
     `,
     );
   });
@@ -99,10 +99,10 @@ describe("template variable extension", () => {
       `
       "Document[0,12] {{pla\\}net}}
         Paragraph[0,12] {{pla\\}net}}
-          TemplateVariable[0,12] {{pla\\}net}}
-            TemplateVariableMark[0,2] {{
+          Variable[0,12] {{pla\\}net}}
+            VariableMark[0,2] {{
             Escape[5,7] \\}
-            TemplateVariableMark[10,12] }}"
+            VariableMark[10,12] }}"
     `,
     );
   });
@@ -115,10 +115,10 @@ describe("template variable extension", () => {
       `
       "Document[0,12] {{pla\\{net}}
         Paragraph[0,12] {{pla\\{net}}
-          TemplateVariable[0,12] {{pla\\{net}}
-            TemplateVariableMark[0,2] {{
+          Variable[0,12] {{pla\\{net}}
+            VariableMark[0,2] {{
             Escape[5,7] \\{
-            TemplateVariableMark[10,12] }}"
+            VariableMark[10,12] }}"
     `,
     );
   });
@@ -131,10 +131,10 @@ describe("template variable extension", () => {
       `
       "Document[0,12] {{pla\\\\net}}
         Paragraph[0,12] {{pla\\\\net}}
-          TemplateVariable[0,12] {{pla\\\\net}}
-            TemplateVariableMark[0,2] {{
+          Variable[0,12] {{pla\\\\net}}
+            VariableMark[0,2] {{
             Escape[5,7] \\\\
-            TemplateVariableMark[10,12] }}"
+            VariableMark[10,12] }}"
     `,
     );
   });
@@ -157,12 +157,12 @@ describe("template variable extension", () => {
       `
       "Document[0,10] {{a}}{{b}}
         Paragraph[0,10] {{a}}{{b}}
-          TemplateVariable[0,5] {{a}}
-            TemplateVariableMark[0,2] {{
-            TemplateVariableMark[3,5] }}
-          TemplateVariable[5,10] {{b}}
-            TemplateVariableMark[5,7] {{
-            TemplateVariableMark[8,10] }}"
+          Variable[0,5] {{a}}
+            VariableMark[0,2] {{
+            VariableMark[3,5] }}
+          Variable[5,10] {{b}}
+            VariableMark[5,7] {{
+            VariableMark[8,10] }}"
     `,
     );
   });
@@ -175,9 +175,9 @@ describe("template variable extension", () => {
       `
       "Document[0,20] before {{var}} after
         Paragraph[0,20] before {{var}} after
-          TemplateVariable[7,14] {{var}}
-            TemplateVariableMark[7,9] {{
-            TemplateVariableMark[12,14] }}"
+          Variable[7,14] {{var}}
+            VariableMark[7,9] {{
+            VariableMark[12,14] }}"
     `,
     );
   });
@@ -190,9 +190,9 @@ describe("template variable extension", () => {
       `
       "Document[0,6] {{{}}}
         Paragraph[0,6] {{{}}}
-          TemplateVariable[0,5] {{{}}
-            TemplateVariableMark[0,2] {{
-            TemplateVariableMark[3,5] }}"
+          Variable[0,5] {{{}}
+            VariableMark[0,2] {{
+            VariableMark[3,5] }}"
     `,
     );
   });

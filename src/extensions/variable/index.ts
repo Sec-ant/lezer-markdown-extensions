@@ -1,14 +1,14 @@
 import { tags } from "@lezer/highlight";
 import type { Element, MarkdownExtension } from "@lezer/markdown";
 
-export const templateVariableExtension = {
+export const variableExtension = {
   defineNodes: [
-    { name: "TemplateVariable", block: false, style: tags.variableName },
-    { name: "TemplateVariableMark", style: tags.processingInstruction },
+    { name: "Variable", block: false, style: tags.variableName },
+    { name: "VariableMark", style: tags.processingInstruction },
   ],
   parseInline: [
     {
-      name: "TemplateVariable",
+      name: "Variable",
       parse(cx, _next, pos) {
         // Must start with `{{`
         if (
@@ -20,7 +20,7 @@ export const templateVariableExtension = {
         let i = pos + 2;
         const len = cx.end;
         // Build an array of child elements (start with opening mark)
-        const elts: Element[] = [cx.elt("TemplateVariableMark", pos, pos + 2)];
+        const elts: Element[] = [cx.elt("VariableMark", pos, pos + 2)];
         while (i < len) {
           const ch = cx.char(i);
           if (
@@ -43,9 +43,9 @@ export const templateVariableExtension = {
             // closing `}}`?
             if (cx.char(i + 1) === CODES.RIGHT_CURLY_BRACE) {
               const end = i + 2;
-              // push closing mark and create a TemplateVariable node with marks as children
-              elts.push(cx.elt("TemplateVariableMark", i, end));
-              return cx.addElement(cx.elt("TemplateVariable", pos, end, elts));
+              // push closing mark and create a Variable node with marks as children
+              elts.push(cx.elt("VariableMark", i, end));
+              return cx.addElement(cx.elt("Variable", pos, end, elts));
             } else {
               i++;
               continue;

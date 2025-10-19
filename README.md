@@ -2,7 +2,7 @@
 
 A set of small extensions and helper packages for working with `@lezer/markdown` and related tooling.
 
-This repository contains reusable Lezer/Markdown parser extensions (for example: a template-variable inline parser), packaging helpers and conventions for publishing the extensions as consumable subpaths.
+This repository contains reusable @lezer/markdown parser extensions, packaging helpers and conventions for publishing the extensions as consumable subpaths.
 
 ## Why this package
 
@@ -11,7 +11,7 @@ This repository contains reusable Lezer/Markdown parser extensions (for example:
 Key goals:
 
 - Provide small, focused `MarkdownExtension` implementations you can drop into `@lezer/markdown`.
-- Export each extension as a subpath (for example `lezer-markdown-extensions/template-variable`) so you can import only what you need.
+- Export each extension as a subpath (for example `lezer-markdown-extensions/variable`) so you can import only what you need.
 - Keep compatibility with both ESM and CJS consumers.
 
 ## Install
@@ -36,16 +36,16 @@ Below are examples showing how to integrate an extension from this package into 
 
 This package exports `MarkdownExtension` objects. The `@lezer/markdown` parser can be reconfigured by calling `MarkdownParser.configure` with one or more extensions.
 
-Minimal example — create a configured parser that adds the `templateVariableExtension`:
+Minimal example — create a configured parser that adds the `variableExtension`:
 
 ```ts
 import { parser as defaultParser, MarkdownParser } from "@lezer/markdown";
-import { templateVariableExtension } from "lezer-markdown-extensions/template-variable";
+import { variableExtension } from "lezer-markdown-extensions/variable";
 
 // The parser exported by `@lezer/markdown` is a `MarkdownParser` instance.
 // Use `configure` to get a new parser that includes your extension.
 const configuredParser: MarkdownParser = defaultParser.configure([
-  templateVariableExtension,
+  variableExtension,
 ]);
 
 // You can now use `configuredParser.parseInline(text, 0)` or pass it to
@@ -56,7 +56,7 @@ console.log(inlineElements);
 
 Notes:
 
-- `templateVariableExtension` is a `MarkdownExtension` (it defines new nodes and an inline parser).
+- `variableExtension` is a `MarkdownExtension` (it defines new nodes and an inline parser).
 - `configure` accepts a single `MarkdownExtension` or an array; nested arrays are supported.
 - See `src/extensions/*` for the extension's node names and behavior.
 
@@ -69,7 +69,7 @@ Minimal CodeMirror example — enable the extension in the language support:
 ```ts
 import { EditorView, basicSetup } from "codemirror";
 import { markdown } from "@codemirror/lang-markdown";
-import { templateVariableExtension } from "lezer-markdown-extensions/template-variable";
+import { variableExtension } from "lezer-markdown-extensions/variable";
 
 const view = new EditorView({
   parent: document.body,
@@ -78,7 +78,7 @@ const view = new EditorView({
     basicSetup,
     // Pass the extension into the markdown() config. It will be applied to
     // the MarkdownParser used by the language support.
-    markdown({ extensions: templateVariableExtension }),
+    markdown({ extensions: variableExtension }),
   ],
 });
 ```
@@ -94,7 +94,7 @@ Notes:
 This package exposes a main entrypoint and per-extension subpaths. Example exports:
 
 - `lezer-markdown-extensions` — main package export (index)
-- `lezer-markdown-extensions/template-variable` — template variable extension
+- `lezer-markdown-extensions/variable` — variable extension
 
 Each extension exports a `MarkdownExtension` object (type from `@lezer/markdown`). Import it and pass it into your parser configuration.
 

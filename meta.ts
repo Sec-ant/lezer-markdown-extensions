@@ -22,7 +22,7 @@ const extensionFiles = globSync("src/extensions/*/index.ts", {
 for (const file of extensionFiles) {
   const entryName = file.replace(/^src\//, "").replace(/\.ts$/, "");
   // For exports subpath we want only the extension folder name, e.g.
-  // "src/extensions/template-variable/index.ts" -> "./template-variable"
+  // "src/extensions/variable/index.ts" -> "./variable"
   const match = entryName.match(/^extensions\/([^/]+)\/index$/);
   const subpath = match ? `./${match[1]}` : `./${entryName}`;
 

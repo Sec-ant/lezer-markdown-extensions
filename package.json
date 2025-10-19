@@ -15,10 +15,10 @@
       "require": "./dist/cjs/index.js",
       "default": "./dist/es/index.js"
     },
-    "./template-variable": {
-      "import": "./dist/es/extensions/template-variable/index.js",
-      "require": "./dist/cjs/extensions/template-variable/index.js",
-      "default": "./dist/es/extensions/template-variable/index.js"
+    "./variable": {
+      "import": "./dist/es/extensions/variable/index.js",
+      "require": "./dist/cjs/extensions/variable/index.js",
+      "default": "./dist/es/extensions/variable/index.js"
     }
   },
   "repository": {

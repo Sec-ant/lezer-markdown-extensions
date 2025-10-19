@@ -1,1 +1,1 @@
-export { templateVariableExtension } from "./extensions/template-variable";
+export { variableExtension } from "./extensions/variable";
